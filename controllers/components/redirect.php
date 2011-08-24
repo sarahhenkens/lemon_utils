@@ -53,7 +53,7 @@ class RedirectComponent extends Object {
 
 		if($referer != $this->Controller->here) {
 			$key = 'Redirect.' . md5($this->Controller->here);
-			$this->Session->write($key, $this->Controller->referer());
+			$this->Session->write($key, $referer);
 		}
 	}
 
