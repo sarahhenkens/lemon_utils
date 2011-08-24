@@ -49,7 +49,7 @@ class RedirectComponent extends Object {
 		$this->_set($settings);
 		$this->Controller = $Controller;
 
-		$referer = $this->Controller->referer();
+		$referer = $this->Controller->referer(null, true);
 
 		if($referer != $this->Controller->here) {
 			$key = 'Redirect.' . md5($this->Controller->here);
