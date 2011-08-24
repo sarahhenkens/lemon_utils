@@ -66,10 +66,11 @@ class RedirectComponent extends Object {
 	 * given.
 	 *
 	 * @param mixed $fallback Array format or string of the URL to fall back too.
+	 * @param boolean $useRefererFallback Set this to false if you dont want this method to call referer on the controller object
 	 * @return string URL to redirect too
 	 * @access public
 	 */
-	public function referer($fallback = array()) {
+	public function referer($fallback = array(), $useRefererFallback = true) {
 		$key = 'Redirect.' . md5($this->Controller->here);
 
 		if($this->Session->check($key)) {
@@ -79,6 +80,10 @@ class RedirectComponent extends Object {
 			return $redirect;
 		}
 
-		return $this->Controller->referer($fallback);
+		if($useRefererFallback) {
+			return $this->Controller->referer($fallback);
+		}
+
+		return $fallback;
 	}
 }
