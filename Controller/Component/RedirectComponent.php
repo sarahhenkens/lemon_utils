@@ -12,13 +12,15 @@
  * @license			MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+App::uses('Component', 'Controller');
+
 /**
  * RedirectComponent
  *
  * This component is used to handle persistent referers acros redirects.
  *
  */
-class RedirectComponent extends Object {
+class RedirectComponent extends Component {
 
 	/**
 	 * Contains the instance of the controller
@@ -51,8 +53,8 @@ class RedirectComponent extends Object {
 
 		$referer = $this->Controller->referer(null, true);
 
-		if($referer != $this->Controller->here) {
-			$key = 'Redirect.' . md5($this->Controller->here);
+		if ($referer != $this->Controller->request->here) {
+			$key = 'Redirect.' . md5($this->Controller->request);
 			$this->Session->write($key, $referer);
 		}
 	}
@@ -70,17 +72,17 @@ class RedirectComponent extends Object {
 	 * @return string URL to redirect too
 	 * @access public
 	 */
-	public function referer($fallback = array(), $useRefererFallback = true) {
-		$key = 'Redirect.' . md5($this->Controller->here);
+	public function url($fallback = array(), $useRefererFallback = true) {
+		$key = 'Redirect.' . md5($this->Controller->request->here);
 
-		if($this->Session->check($key)) {
+		if ($this->Session->check($key)) {
 			$redirect = $this->Session->read($key);
 			$this->Session->delete($key);
 
 			return $redirect;
 		}
 
-		if($useRefererFallback) {
+		if ($useRefererFallback) {
 			return $this->Controller->referer($fallback);
 		}
 
